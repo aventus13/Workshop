@@ -1,0 +1,31 @@
+#r "packages/Bullseye.1.1.0-rc.2/lib/netstandard2.0/Bullseye.dll"
+#load "scripts/cmd.csx"
+
+using System;
+using static Bullseye.Targets;
+
+<<<<<<< HEAD
+Target("default", DependsOn("demos", "exercises"));
+=======
+targets.Add(
+    "restore-demos",
+    () =>
+    {
+        foreach (var solution in demoSolutions)
+        {
+            Cmd("dotnet", $"restore {solution}");
+        }
+    });
+>>>>>>> use 'dotnet restore' for demos
+
+Target(
+    "demos",
+    Directory.EnumerateFiles("demos", "*.sln", SearchOption.AllDirectories),
+    solution => Cmd("dotnet", $"build {solution} --configuration Debug"));
+
+Target(
+    "exercises",
+    Directory.EnumerateFiles("exercises", "*.sln", SearchOption.AllDirectories),
+    solution => Cmd("dotnet", $"build {solution} --configuration Debug"));
+
+RunTargets(Args);
